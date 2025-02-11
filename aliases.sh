@@ -1,40 +1,52 @@
 # Aliases for git bash
 
 # Function to open Windows Terminal for Git Bash with args
+#!/bin/bash
+
+# Open Windows Terminal with Git Bash
+
 wtgb() {
-    local attach=""
-    local split=""
+    if [[ "$1" == "help" ]]; then
+        echo "Usage: wtgb [option]"
+        echo "Options:"
+        echo "  sph    - Split horizontally"
+        echo "  sp|spv - Split vertically"
+        echo "  d      - Open a detached new window"
+        echo "  help   - Show this help message"
+        echo ""
+        echo "Other examples:"
+        echo "Pass any other original Windows Terminal args."
+        echo "\twtgb sph --title \"My Git Bash\""
+        echo "\twtgb d --maximized"
+        return
+    fi
+
+    local cmd="wt -p \"Git Bash\" -d ."
+    local extra_args=()
+
     while [[ $# -gt 0 ]]; do
-        case $1 in
-            -a)
-                attach="-a"
-                shift
+        case "$1" in
+            "sph")
+                cmd="wt -w 0 sp -H -p \"Git Bash\" -d ."
                 ;;
-            -sp)
-                split=$2
-                shift 2
+            "sp"|"spv")
+                cmd="wt -w 0 sp -p \"Git Bash\" -d ."
+                ;;
+            "d")
+                cmd="wt -p \"Git Bash\" -d ."
                 ;;
             *)
-                shift
+                extra_args+=("$1") # Collect additional arguments
                 ;;
         esac
+        shift
     done
-    local command="wt -w 0 sp -p 'Git Bash' -d ."
-    if [[ $attach == "-a" ]]; then
-        command+=" -a"
+
+    # Append extra args if any
+    if [[ ${#extra_args[@]} -gt 0 ]]; then
+        cmd+=" ${extra_args[*]}"
     fi
-    if [[ $split == "v" || $split == "h" ]]; then
-        command+=" -sp $split"
-    fi
-    eval $command
+
+    eval "$cmd"
 }
 
-# Alias to call the function wtgb
-alias wtgb='wtgb'
-
-# Alias to attach to an existing window
-alias wtgb-a='wtgb -a'
-
-# Alias to split the window vertically/horizontally
-alias wtgb-a-sp-v='wtgb -a -sp v'
-alias wtgb-a-sp-h='wtgb -a -sp h'
