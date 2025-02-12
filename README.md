@@ -1,6 +1,9 @@
 # dotfiles-windows
 
-> Work in progress
+For the brave, slightly less painful—but don’t expect to keep your sanity.
+
+> [!NOTE]
+> _Work in progress_
 
 ## Installation
 
