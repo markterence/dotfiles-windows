@@ -47,6 +47,17 @@ wtgb() {
         cmd+=" ${extra_args[*]}"
     fi
 
-    eval "$cmd"
+    # Execute the command and capture the output and error
+    local output
+    output=$(eval "$cmd" 2>&1)
+    local status=$?
+
+    # Check if the command was successful
+    if [[ $status -ne 0 ]]; then
+        echo "Error: Failed to execute 'wt' command."
+        echo "Output:"
+        echo "$output"
+        return $status
+    fi
 }
 
