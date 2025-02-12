@@ -16,8 +16,8 @@ wtgb() {
         echo ""
         echo "Other examples:"
         echo "Pass any other original Windows Terminal args."
-        echo "\twtgb sph --title \"My Git Bash\""
-        echo "\twtgb d --maximized"
+        echo "  wtgb sph --title \"My Git Bash\""
+        echo "  wtgb d --maximized"
         return
     fi
 
